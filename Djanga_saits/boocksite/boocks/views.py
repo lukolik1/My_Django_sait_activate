@@ -13,10 +13,13 @@ menu = [ { 'title': "О сайте", 'url_name': 'about'},
  
 def index(request):
 	posts = Boocks.objects.all()
+	cats = Category.objects.all()
 	context = {
 		'posts': posts,
+		'cats': cats,
 		'menu': menu,
-		'title': 'Главная страница'
+		'title': 'Главная страница',
+		'cat_selected': 0,
 	}
 	return render(request, 'boocks/index.html', context=context)
 
@@ -41,3 +44,23 @@ def login(request):
 
 def Show_Boocks(request, boocks_id):
 	return HttpResponse(f"<h1> Книги по категориям </h1> <p>{boocks_id}</p>")
+
+
+
+
+def Show_category(request, cat_id):
+	posts = Boocks.objects.filter(cat_id=cat_id)
+	cats = Category.objects.all()
+
+
+	context = {
+			'posts': posts,
+			'cats': cats,
+			'menu': menu,
+			'title': 'Отображение по жанру',
+			'cat_selected': cat_id, 
+
+	}
+	
+
+	return render(request, 'boocks/index.html', context=context)
